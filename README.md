@@ -6,6 +6,9 @@
 
 易货滴前端开发脚手架
 
+### 设计
+
+![desgin](https://raw.githubusercontent.com/macisi/ehdev/master/desgin.png)
 
 ### 如何使用
 ---
@@ -29,7 +32,7 @@ ehdev server
 ```
 
 ### 配置文件说明
-```json
+```js
 {
   // 模块配置
   "workspace": {

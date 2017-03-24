@@ -57,4 +57,4 @@ makeProxyByConfig();
 
 devServer.listen(3000);
 
-// opn('http://localhost:3000/scms/trunk/index.html');
+opn('http://localhost:3000/scms/trunk/index.html');
