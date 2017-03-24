@@ -2,7 +2,6 @@
 ---
 
 [![npm](https://img.shields.io/npm/v/ehdev.svg)]()
-[![Github All Releases](https://img.shields.io/github/downloads/macisi/ehdev/total.svg)]()
 [![npm](https://img.shields.io/npm/dt/ehdev.svg)]()
 
 易货滴前端开发脚手架
