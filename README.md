@@ -33,45 +33,33 @@ ehdev server
 
 ### 配置文件说明
 ```js
+// abc.json
 {
-  // 模块配置
-  "workspace": {
-    // 项目子模块名
-    // 不在这里列出的模块，会默认去拉线上代码
-    "scms": {
-      // 子模块 svn 分支
-      "branch": "trunk",
-      // 是否启用该模块的本地调试，false 则使用线上资源
-      "active": true
-    },
-    "basicConfigWeb": {
-      "branch": "trunk",
-      "active": true
-    },
-    "center": {
-      "branch": "trunk",
-      "active": true,
-      // 子模块内部的目录结构，如果又嵌套，需要在此配置
-      "relativePath": "center"
+  // 项目类型
+  "type": "standard",
+  // 公共库
+  "libiary": {
+    "commonLib": [ "./lib/common.js" ]
+  },
+  // 直接引用的外部资源，不构建
+  "externals": {
+    "lodash": {
+      "path": "node_modules/lodash/lodash.min.js",
+      "alias": "_"
     }
   },
-  // 代理配置
+  // 接口代理转发
   "proxy": {
-    // 全局的代理，如果不存在对应文件，会拿该域名请求资源
-    "/": {
-      "proxy_pass": "http://managementtest.ehuodi.com"
-    },
-    // api 代理配置
-    "/ehuodiBedrockApi": {
-      "proxy_pass": "http://managementtest.ehuodi.com"
-    },
-    "/ehuodiCrmApi": {
-      "proxy_pass": "http://10.7.13.58"
-    },
-    "/goodstaxiAdmin": {
-      "proxy_pass": "http://myportaltest.tf56.com"
-    }
-  }
+    "/someApiPath": "http://some.host/someApiPath"
+  },
+  // 兼容浏览器范围，同时影响 css 和 js
+  // 规则：https://github.com/ai/browserslist
+  "browser_support": {
+    "DEVELOPMENT": [ "last 2 versions" ],
+    "PRODUCTION": [ "last 2 versions" ]
+  },
+  // 发布地址，只在生产环境生效
+  "publicPath": "http://your.publishserver.address/"
 }
 ```
 

@@ -113,21 +113,6 @@ program
   .version(pkg.version)
   .usage('<command> [options]');
 
-// program
-//   .command('server')
-//   .description('start the dev server')
-//   .action(() => {
-//     require(pluginDir + 'server/');
-//   });
-
-// enhanced future
-// program
-//   .command('build')
-//   .description('build')
-//   .action(() => {
-//     console.log('build');
-//   });
-
 // parse command line arguments
 program.parse(argvs);
 
@@ -146,7 +131,7 @@ function findPluginPath(command) {
     } catch (e) {
       console.log(`
       ${chalk.green.bold(command)} command is not installed.
-      You can try to install it by ${chalk.blue.bold('ehdev install ' + command)}.
+      You can try to install it by ${chalk.blue.bold('npm install ehdev-' + command + ' -g')}.
       `);
     }
   }
