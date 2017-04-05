@@ -11,9 +11,7 @@ const versionsPath = path.join(configRoot, 'latest-versions.json');
 
 // tasks definiation
 const majorVersion = process.argv[2].split('.')[0];
-const tasks = process.argv.slice(3).map(function(command) {
-  return packageJson(command, majorVersion);
-});
+const tasks = process.argv.slice(3).map(command => packageJson(command, majorVersion));
 tasks.push(packageJson('ehdev', 'latest'))
 tasks.push(new Promise((resolve) => {
   fs.mkdir(configRoot, resolve);
@@ -35,15 +33,15 @@ new Promise((resolve, reject) => {
       resolve(Promise.all(tasks));
     }
   });
-}).then(function(pkgs) {
+}).then(pkgs => {
 
   // write to versions store
   var versions = {};
-  pkgs.forEach(function(pkg) {
+  pkgs.forEach(pkg => {
     versions[pkg.name] = pkg.version;
   });
   fs.writeFile(versionsPath, JSON.stringify({
     versions: versions,
-    update: Date.now()
+    update: Date.now(),
   }));
 });

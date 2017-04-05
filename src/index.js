@@ -32,7 +32,9 @@ const pluginPath = findPluginPath(command);
 
 if (pluginPath) {
   // check update of current command
-  updateNotifier(pkg.version, 'ehdev-' + command);
+  updateNotifier(pkg.version, {
+    [`ehdev-${command}`]: pluginPath,
+  });
 
   // regist current plugin
   const pluginDef = require(pluginPath);
@@ -80,8 +82,8 @@ if (pluginPath) {
   }
 } else if (!command) { // plugin not found
 
-  var plugins;
-  var pluginPool = {};
+  let plugins;
+  let pluginPool = {};
 
   moduleDirs.forEach(modulesDir => {
 
@@ -93,10 +95,10 @@ if (pluginPath) {
 
       // ensure local plugins not be overridden
       if (!pluginPool[name]) {
-        pluginPool[name] = true;
+        pluginPool[name] = path.join(modulesDir, name, 'package.json');
 
         // regist a plugin for help
-        const pluginPkg = require(path.join(modulesDir, name, 'package.json'));
+        const pluginPkg = require(pluginPool[name]);
         program
           .command(name.substring(6))
           .description(`${pluginPkg.description} ${chalk.green('(v' + pluginPkg.version + ')')}`);
@@ -105,7 +107,7 @@ if (pluginPath) {
   });
 
   // check update of all plugins
-  updateNotifier.apply(null, [ pkg.version ].concat(plugins));
+  updateNotifier(pkg.version, pluginPool);
 }
 
 // program definiation

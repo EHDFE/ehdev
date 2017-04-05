@@ -8,7 +8,7 @@ const spawn = require('child_process').spawn;
 const chalk = require('chalk');
 const semver = require('semver');
 
-module.exports = function() {
+module.exports = (version, plugins) => {
   // read latest versions
   const versionsFile = path.join(os.homedir(), '.ehdev', 'latest-versions.json');
   let store = {};
@@ -19,10 +19,14 @@ module.exports = function() {
 
   // compare versions and show tip
   let isTipShow = false;
-  let argvs = Array.prototype.slice.call(arguments, 0);
-  argvs.slice(1).concat([ 'ehdev' ]).forEach(function(plugin) {
+  const pluginName = Object.keys(plugins);
+  pluginName.concat([ 'ehdev' ]).forEach(plugin => {
     try {
-      const pkg = require(path.join(__dirname, '..', '..', plugin, 'package.json'));
+      const pkg = require(
+        plugins[plugin] ?
+          plugins[plugin]:
+          path.join(__dirname, '..', '..', plugin, 'package.json')
+      )
       if (versions[plugin] && semver.lt(pkg.version, versions[plugin])) {
         if (plugin === 'ehdev') {
 
@@ -40,7 +44,7 @@ module.exports = function() {
             chalk.yellow(
               '\n  Update available: ' +
               plugin + '@' + versions[plugin] + ' (Current: ' + pkg.version + ')' +
-              '\n  Run  `ehdev install ' + plugin.substring(5) + '`  to update.')
+              '\n  Run  `npm install -g ' + plugin.substring(5) + '`  to update.')
             );
         }
         isTipShow = true;
@@ -52,7 +56,7 @@ module.exports = function() {
   // fetch latest versions
   spawn(process.execPath, [
     path.join(__dirname, 'check')
-  ].concat(argvs), {
+  ].concat([version, ...pluginName]), {
     detached: true,
     stdio: 'ignore'
   }).unref();
