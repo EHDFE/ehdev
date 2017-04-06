@@ -8,7 +8,6 @@ const resolve = require('resolve');
 
 const pkg = require('../package.json');
 
-const pluginDir = '../plugins/';
 const updateNotifier = require('./update-notifier');
 const argvs = process.argv;
 const command = argvs[2];
